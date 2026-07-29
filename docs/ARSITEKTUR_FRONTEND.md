@@ -72,9 +72,11 @@ Status arsitektur yang saat ini benar-benar aktif di code:
 - `src/styles/index.css` saat ini hanya berisi base style, token warna, dan theme mapping Tailwind.
 - Primitive UI global di `src/components/ui` mayoritas sudah ada implementasinya.
 - `Topbar` sudah ada di `src/components/layout/topbar.tsx`, tetapi belum dipasang ke halaman aktif.
-- Feature components yang sudah aktif dipakai di halaman: `product-toolbar.tsx`, `product-table.tsx`, `product-card.tsx`, `product-card-list.tsx`, `product-detail.tsx`, `product-form.tsx`, dan `products-page.tsx`.
-- File feature yang masih kosong saat ini: `product-image.tsx`.
+- Feature components yang sudah aktif dipakai di halaman: `product-toolbar.tsx`, `product-table.tsx`, `product-card.tsx`, `product-card-list.tsx`, `product-detail.tsx`, `product-form.tsx`, `product-image.tsx`, dan `products-page.tsx`.
 - Validasi form sudah terhubung ke UI melalui `ProductForm + react-hook-form + zodResolver(productFormSchema)`.
+- Feedback action sudah aktif melalui primitive `Alert` untuk success/danger state pada create, edit, delete, dan retry fetch error.
+- Disabled action state sudah aktif di `ProductForm` (`Adding...` / `Saving...`) dan `ConfirmDialog` (`Deleting...`).
+- `README.md` sudah diganti dari template bawaan menjadi README project yang mengikuti requirement technical test.
 - Persistence local CRUD sudah diverifikasi di level runtime store dengan simulasi rehydrate `localStorage`.
 
 ---

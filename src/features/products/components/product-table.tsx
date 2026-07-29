@@ -8,6 +8,7 @@ import {
 } from "../../../components/ui/table";
 import { formatPrice, formatRating } from "../../../utils/format-number";
 import type { Product } from "../types/product";
+import { ProductImage } from "./product-image";
 
 type ProductTableProps = {
   products: Product[];
@@ -98,7 +99,7 @@ export function ProductTable({
                   <TableCell>
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="h-14 w-14 shrink-0 overflow-hidden rounded-field border border-border bg-surface-2">
-                        <img
+                        <ProductImage
                           alt={product.title}
                           className="h-full w-full object-cover"
                           loading="lazy"
@@ -153,8 +154,8 @@ export function ProductTable({
                         onClick={
                           onView
                             ? () => {
-                                onView(product);
-                              }
+                              onView(product);
+                            }
                             : undefined
                         }
                       />
@@ -163,8 +164,8 @@ export function ProductTable({
                         onClick={
                           onEdit
                             ? () => {
-                                onEdit(product);
-                              }
+                              onEdit(product);
+                            }
                             : undefined
                         }
                       />
@@ -173,8 +174,8 @@ export function ProductTable({
                         onClick={
                           onDelete
                             ? () => {
-                                onDelete(product);
-                              }
+                              onDelete(product);
+                            }
                             : undefined
                         }
                       />

@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { joinClasses } from "../classnames";
 
-type IconButtonVariant = "ghost" | "secondary" | "danger";
+type IconButtonVariant = "ghost" | "secondary" | "primary" | "danger";
 type IconButtonSize = "sm" | "md";
 
 type IconButtonProps = Omit<ComponentPropsWithoutRef<"button">, "children"> & {
@@ -17,6 +17,8 @@ const variantClassNames: Record<IconButtonVariant, string> = {
     "border-transparent bg-transparent text-text hover:border-surface-2 hover:bg-surface-2",
   secondary:
     "border-border bg-surface text-text hover:border-[#ccb7a8] hover:bg-surface-2",
+  primary:
+    "border-primary bg-primary text-white hover:border-primary-strong hover:bg-primary-strong",
   danger:
     "border-danger/15 bg-danger-soft text-danger hover:border-danger/30 hover:bg-[#f3d7d4]",
 };

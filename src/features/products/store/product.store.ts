@@ -51,9 +51,9 @@ type ProductState = {
   clearError: () => void;
   fetchCategories: () => Promise<void>;
   fetchProducts: () => Promise<void>;
-  createProduct: (values: ProductFormValues) => Product;
-  updateProduct: (id: number, values: ProductFormValues) => Product;
-  deleteProduct: (id: number) => void;
+  createProduct: (values: ProductFormValues) => Promise<Product>;
+  updateProduct: (id: number, values: ProductFormValues,) => Promise<Product>;
+  deleteProduct: (id: number) => Promise<void>;
 };
 
 type PersistedProductState = Pick<
@@ -235,29 +235,41 @@ export const useProductStore = create<ProductState>()(
         }
       },
 
-      createProduct: (values) => {
+      createProduct: async (values) => {
         const state = get();
+
         const product = buildProduct(Date.now(), values);
 
         set({
-          createdProducts: [...state.createdProducts, product],
+          createdProducts: [
+            ...state.createdProducts,
+            product,
+          ],
           page: 1,
         });
 
-        void get().fetchProducts();
+        await get().fetchProducts();
 
         return product;
       },
 
-      updateProduct: (id, values) => {
+      updateProduct: async (
+        id,
+        values,
+      ) => {
         const state = get();
-        const existingCreatedProduct = state.createdProducts.find(
-          (product) => product.id === id,
-        );
+
+        const existingCreatedProduct =
+          state.createdProducts.find(
+            (product) => product.id === id,
+          );
+
         const baseProduct =
           existingCreatedProduct ??
           state.updatedProducts[id] ??
-          state.products.find((product) => product.id === id);
+          state.products.find(
+            (product) => product.id === id,
+          );
 
         if (!baseProduct) {
           throw new Error(`Product with id ${id} not found`);
@@ -271,9 +283,14 @@ export const useProductStore = create<ProductState>()(
 
         if (existingCreatedProduct) {
           set({
-            createdProducts: state.createdProducts.map((product) =>
-              product.id === id ? nextProduct : product,
-            ),
+            createdProducts:
+              state.createdProducts.map(
+                (product) =>
+                  product.id === id
+                    ? nextProduct
+                    : product,
+              ),
+
             selectedProduct:
               state.selectedProduct?.id === id
                 ? nextProduct
@@ -285,6 +302,7 @@ export const useProductStore = create<ProductState>()(
               ...state.updatedProducts,
               [id]: nextProduct,
             },
+
             selectedProduct:
               state.selectedProduct?.id === id
                 ? nextProduct
@@ -292,23 +310,27 @@ export const useProductStore = create<ProductState>()(
           });
         }
 
-        void get().fetchProducts();
+        await get().fetchProducts();
 
         return nextProduct;
       },
 
-      deleteProduct: (id) => {
+      deleteProduct: async (id) => {
         const state = get();
 
-        const isCreatedProduct = state.createdProducts.some(
-          (product) => product.id === id,
-        );
+        const isCreatedProduct =
+          state.createdProducts.some(
+            (product) => product.id === id,
+          );
 
         if (isCreatedProduct) {
           set({
-            createdProducts: state.createdProducts.filter(
-              (product) => product.id !== id,
-            ),
+            createdProducts:
+              state.createdProducts.filter(
+                (product) =>
+                  product.id !== id,
+              ),
+
             page: 1,
           });
         } else {
@@ -319,15 +341,22 @@ export const useProductStore = create<ProductState>()(
           delete nextUpdatedProducts[id];
 
           set({
-            updatedProducts: nextUpdatedProducts,
-            deletedProductIds: state.deletedProductIds.includes(id)
-              ? state.deletedProductIds
-              : [...state.deletedProductIds, id],
+            updatedProducts:
+              nextUpdatedProducts,
+
+            deletedProductIds:
+              state.deletedProductIds.includes(id)
+                ? state.deletedProductIds
+                : [
+                  ...state.deletedProductIds,
+                  id,
+                ],
+
             page: 1,
           });
         }
 
-        void get().fetchProducts();
+        await get().fetchProducts();
       },
     }),
     {

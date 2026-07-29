@@ -24,6 +24,7 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   return (
     <Modal
+      closeOnOverlayClick={!isLoading}
       footer={
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button
@@ -33,6 +34,7 @@ export function ConfirmDialog({
           >
             {cancelLabel}
           </Button>
+
           <Button
             isLoading={isLoading}
             loadingLabel="Deleting..."
@@ -45,7 +47,7 @@ export function ConfirmDialog({
       }
       isOpen={isOpen}
       onOpenChange={(open) => {
-        if (!open) {
+        if (!open && !isLoading) {
           onCancel();
         }
       }}

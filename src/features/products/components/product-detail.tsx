@@ -1,5 +1,6 @@
 import { formatPrice, formatRating } from "../../../utils/format-number";
 import type { Product } from "../types/product";
+import { ProductImage } from "./product-image";
 
 type ProductDetailProps = {
   product: Product;
@@ -28,9 +29,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
     <div className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-[220px_1fr]">
         <div className="overflow-hidden rounded-card border border-border bg-surface-2">
-          <img
+          <ProductImage
             alt={product.title}
             className="aspect-square h-full w-full object-contain"
+            loading="eager"
             src={product.thumbnail}
           />
         </div>

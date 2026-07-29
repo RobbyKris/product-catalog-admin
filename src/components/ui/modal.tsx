@@ -1,7 +1,8 @@
 import { useEffect, useId } from "react";
 import { createPortal } from "react-dom";
 import { joinClasses } from "../classnames";
-import { Button } from "./button";
+import { IconButton } from "./icon-button";
+import { FiX } from "react-icons/fi";
 
 type ModalSize = "sm" | "md" | "lg" | "xl";
 
@@ -102,15 +103,21 @@ export function Modal({
             ) : null}
           </div>
 
-          <Button
+          <IconButton
+            aria-label={closeLabel}
+            className="group -mr-1 shrink-0 rounded-full shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-soft active:translate-y-0"
             onClick={() => {
               onOpenChange(false);
             }}
             size="sm"
-            variant="ghost"
+            title={closeLabel}
+            variant="primary"
           >
-            {closeLabel}
-          </Button>
+            <FiX
+              aria-hidden="true"
+              className="h-4 w-4 transition-transform duration-200 group-hover:rotate-90"
+            />
+          </IconButton>
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">

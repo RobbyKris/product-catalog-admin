@@ -6,6 +6,7 @@ import {
 } from "../../../components/ui/card";
 import { formatPrice, formatRating } from "../../../utils/format-number";
 import type { Product } from "../types/product";
+import { ProductImage } from "./product-image";
 
 type ProductCardProps = {
   product: Product;
@@ -74,7 +75,7 @@ export function ProductCard({
       <CardBody>
         <div className="flex items-start gap-3">
           <CardMedia className="h-20 w-20 shrink-0">
-            <img
+            <ProductImage
               alt={product.title}
               className="h-full w-full object-cover"
               loading="lazy"
@@ -129,8 +130,8 @@ export function ProductCard({
           onClick={
             onView
               ? () => {
-                  onView(product);
-                }
+                onView(product);
+              }
               : undefined
           }
         />
@@ -139,8 +140,8 @@ export function ProductCard({
           onClick={
             onEdit
               ? () => {
-                  onEdit(product);
-                }
+                onEdit(product);
+              }
               : undefined
           }
         />
@@ -149,8 +150,8 @@ export function ProductCard({
           onClick={
             onDelete
               ? () => {
-                  onDelete(product);
-                }
+                onDelete(product);
+              }
               : undefined
           }
         />

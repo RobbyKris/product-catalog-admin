@@ -1446,7 +1446,13 @@ Ringkasan progress code saat ini:
 12. `Local persistence`: selesai dan sudah diverifikasi. `createdProducts`, `updatedProducts`, dan `deletedProductIds` dipersist lewat Zustand, lalu ter-rehydrate dengan benar pada simulasi refresh/load ulang store.
 13. `CRUD UI`: selesai untuk wiring utama. `ProductDetail`, `ProductForm`, `Modal`, `ConfirmDialog`, dan action create/edit/delete sudah terhubung dari `ProductsPage`.
 14. `Validasi form`: selesai. `ProductForm` sudah memakai `react-hook-form` + `zodResolver(productFormSchema)` dan field optional numeric dinormalisasi aman saat kosong.
-15. `Routing`: belum dipakai. `src/app/router.tsx` masih kosong, dan aplikasi saat ini hanya memakai satu halaman langsung dari `App`.
+15. `Image fallback`: selesai. `ProductImage` sudah aktif di `ProductTable`, `ProductCard`, dan `ProductDetail`, termasuk fallback untuk URL kosong atau image gagal dimuat.
+16. `Feedback action`: selesai. `Alert` sudah dipakai untuk success/danger feedback pada create, edit, delete, dan error fetch.
+17. `Disabled action state`: selesai. `ProductForm` sudah menampilkan `Adding...` / `Saving...`, dan `ConfirmDialog` sudah menampilkan `Deleting...` sambil mengunci close action saat proses berjalan.
+18. `Routing`: belum dipakai. `src/app/router.tsx` masih kosong, dan aplikasi saat ini hanya memakai satu halaman langsung dari `App`.
+19. `README`: selesai. `README.md` sekarang sudah memuat install dependency, cara menjalankan project, fitur yang sudah dibuat, pilihan assessment, struktur folder singkat, pendekatan Zustand store, dan tradeoff teknis.
+
+Dengan update ini, seluruh prioritas pengerjaan `1 - 22` sudah selesai.
 
 Hasil verifikasi saat ini:
 
@@ -1492,8 +1498,8 @@ Catatan: checklist di bawah mencerminkan status code saat ini. Item fitur yang b
 - [x] Delete product
 - [x] Delete confirmation
 - [x] Form validation
-- [ ] Success feedback
-- [ ] Disabled action state
+- [x] Success feedback
+- [x] Disabled action state
 
 ### Persistence
 
@@ -1512,7 +1518,7 @@ Catatan: checklist di bawah mencerminkan status code saat ini. Item fitur yang b
 
 - [x] Desktop responsive
 - [x] Mobile responsive
-- [ ] Image fallback
+- [x] Image fallback
 - [x] Input label
 - [x] Button text jelas
 - [x] Loading skeleton
@@ -1528,7 +1534,7 @@ Catatan: checklist di bawah mencerminkan status code saat ini. Item fitur yang b
 - [x] Component tidak terlalu besar
 - [x] localStorage logic tidak tersebar
 - [x] Struktur folder jelas
-- [ ] README lengkap
+- [x] README lengkap
 
 ## Verifikasi Terakhir
 
@@ -1536,6 +1542,7 @@ Catatan: checklist di bawah mencerminkan status code saat ini. Item fitur yang b
 - `npm run build`: lulus.
 - `localStorage persistence`: lulus lewat verifikasi runtime dengan simulasi reload store pada 29 Juli 2026.
 - `form validation`: lulus lewat verifikasi schema untuk kasus valid minimal, field wajib kosong, dan normalisasi field optional numeric pada 29 Juli 2026.
+- `README.md`: sudah disesuaikan dengan requirement technical test pada 29 Juli 2026.
 
 ## Nilai Plus yang Layak Diprioritaskan
 

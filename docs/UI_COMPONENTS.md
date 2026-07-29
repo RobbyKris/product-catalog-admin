@@ -60,11 +60,12 @@ Status komponen berdasarkan code yang ada saat ini:
 - Primitive UI yang sudah ada implementasinya: `Button`, `IconButton`, `FormField`, `Input`, `Textarea`, `Select`, `SearchInput`, `Badge`, `Card`, `CardList`, `Table`, `Pagination`, `Modal`, `ConfirmDialog`, `Skeleton`, `EmptyState`, dan `Alert`.
 - Primitive UI yang sudah dipakai di flow halaman aktif: `Button`, `FormField`, `Input`, `Textarea`, `Select`, `SearchInput`, `Card`, `CardList`, `Table`, `Pagination`, `Modal`, `ConfirmDialog`, `Skeleton`, `EmptyState`, dan `Alert`.
 - Primitive UI yang sudah ada tetapi belum dipakai di flow `ProductsPage`: `IconButton` dan `Badge`.
-- Component product yang sudah aktif dipakai: `ProductToolbar`, `ProductTable`, `ProductCard`, `ProductCardList`, `ProductDetail`, dan `ProductForm`.
-- Component product yang masih kosong: `ProductImage`.
+- Component product yang sudah aktif dipakai: `ProductToolbar`, `ProductTable`, `ProductCard`, `ProductCardList`, `ProductDetail`, `ProductForm`, dan `ProductImage`.
 - `Topbar` sudah ada di `src/components/layout/topbar.tsx`, tetapi belum dipasang di halaman aktif.
 - `ProductTable` dan `ProductCard` saat ini masih memakai action button teks biasa. `IconButton` belum dipakai di flow aktif.
 - Badge category dan stock saat ini masih dirender dengan class utility inline di feature component, belum memakai primitive `Badge`.
+- `Alert` sudah dipakai di halaman aktif untuk dua flow: fetch error serta success/danger feedback setelah create, edit, dan delete.
+- `ConfirmDialog` sudah memakai `isLoading` aktif untuk delete state, dan `ProductForm` sudah memakai loading label `Adding...` / `Saving...`.
 
 ---
 
@@ -926,6 +927,11 @@ type EmptyStateProps = {
 
 Gunakan feedback sederhana.
 
+Status code saat ini:
+
+- `Alert` sudah dipakai di `ProductsPage` untuk fetch error dengan action retry.
+- `Alert` juga sudah dipakai untuk success/danger feedback setelah create, edit, dan delete.
+
 Variant:
 
 ```txt
@@ -968,9 +974,8 @@ features/products/components/product-image.tsx
 
 Status code saat ini:
 
-- File `product-image.tsx` masih kosong.
-- Thumbnail pada `ProductTable` dan `ProductCard` masih langsung memakai elemen `<img>` biasa.
-- Fallback image belum diimplementasikan.
+- `ProductImage` sudah diimplementasikan dan dipakai di `ProductTable`, `ProductCard`, dan `ProductDetail`.
+- Component ini sudah menangani `alt`, fallback untuk URL kosong, dan fallback ketika image gagal dimuat.
 
 Tanggung jawab:
 
@@ -1353,6 +1358,6 @@ ProductImage
 Status saat ini:
 
 - `ProductToolbar`, `ProductTable`, `ProductCard`, `ProductCardList`, `ProductDetail`, dan `ProductForm` sudah dipakai di `ProductsPage`.
-- `ProductImage` masih belum diimplementasikan.
+- `ProductImage` sudah dipakai untuk seluruh thumbnail utama di flow list dan detail product.
 
 Tidak perlu menambahkan primitive baru kecuali kebutuhan tersebut benar-benar muncul dan memberi manfaat yang jelas.

@@ -79,6 +79,7 @@ export function ProductForm({
   }
 
   const submitLabel = mode === "create" ? "Add Product" : "Save Changes";
+  const loadingLabel = mode === "create" ? "Adding..." : "Saving...";
 
   return (
     <form
@@ -357,7 +358,12 @@ export function ProductForm({
           Cancel
         </Button>
 
-        <Button disabled={isSubmitting} isLoading={isSubmitting} type="submit">
+        <Button
+          disabled={isSubmitting}
+          isLoading={isSubmitting}
+          loadingLabel={loadingLabel}
+          type="submit"
+        >
           {submitLabel}
         </Button>
       </div>

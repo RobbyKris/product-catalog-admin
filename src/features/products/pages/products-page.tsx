@@ -23,6 +23,11 @@ import type {
 } from "../types/product";
 
 type ActiveDialog = "detail" | "create" | "edit" | "delete" | null;
+type FeedbackState = {
+  variant: "success" | "danger";
+  title: string;
+  description: string;
+} | null;
 
 export function ProductsPage() {
   const products = useProductStore((state) => state.products);
@@ -57,6 +62,8 @@ export function ProductsPage() {
 
   const [searchInput, setSearchInput] = useState(search);
   const [activeDialog, setActiveDialog] = useState<ActiveDialog>(null);
+  const [feedback, setFeedback] = useState<FeedbackState>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const debouncedSearch = useDebounce(searchInput, 400);
 
   useEffect(() => {
@@ -83,6 +90,16 @@ export function ProductsPage() {
   useEffect(() => {
     void fetchProducts();
   }, [category, fetchProducts, page, search, sortBy, sortOrder]);
+
+  useEffect(() => {
+    if (!feedback) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => { setFeedback(null); }, 4000);
+
+    return () => { window.clearTimeout(timeoutId) };
+  }, [feedback]);
 
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
@@ -133,28 +150,100 @@ export function ProductsPage() {
     setActiveDialog("delete");
   }
 
-  function handleCreateSubmit(values: ProductFormValues) {
-    createProduct(values);
-    handleCloseDialog();
+  async function handleCreateSubmit(
+    values: ProductFormValues,
+  ) {
+    try {
+      await createProduct(values);
+
+      handleCloseDialog();
+
+      setFeedback({
+        variant: "success",
+        title: "Product created",
+        description:
+          "The product was added successfully.",
+      });
+    } catch {
+      handleCloseDialog();
+
+      setFeedback({
+        variant: "danger",
+        title: "Failed to create product",
+        description:
+          "The product could not be created.",
+      });
+    }
   }
 
-  function handleEditSubmit(values: ProductFormValues) {
+  async function handleEditSubmit(
+    values: ProductFormValues,
+  ) {
     if (!selectedProduct) {
       return;
     }
 
-    updateProduct(selectedProduct.id, values);
+    try {
+      await updateProduct(
+        selectedProduct.id,
+        values,
+      );
 
-    handleCloseDialog();
+      handleCloseDialog();
+
+      setFeedback({
+        variant: "success",
+        title: "Product updated",
+        description:
+          "The product changes were saved successfully.",
+      });
+    } catch {
+      handleCloseDialog();
+
+      setFeedback({
+        variant: "danger",
+        title: "Failed to update product",
+        description:
+          "The product changes could not be saved.",
+      });
+    }
   }
 
-  function handleConfirmDelete() {
-    if (!selectedProduct) {
+  async function handleConfirmDelete() {
+    if (
+      !selectedProduct ||
+      isDeleting
+    ) {
       return;
     }
 
-    deleteProduct(selectedProduct.id);
-    handleCloseDialog();
+    setIsDeleting(true);
+
+    try {
+      await deleteProduct(
+        selectedProduct.id,
+      );
+
+      handleCloseDialog();
+
+      setFeedback({
+        variant: "success",
+        title: "Product deleted",
+        description:
+          "The product was deleted successfully.",
+      });
+    } catch {
+      handleCloseDialog();
+
+      setFeedback({
+        variant: "danger",
+        title: "Failed to delete product",
+        description:
+          "The product could not be deleted.",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   const isEmpty = !isLoading && !error && products.length === 0;
@@ -196,6 +285,17 @@ export function ProductsPage() {
         sortBy={sortBy}
         sortOrder={sortOrder}
       />
+
+      {feedback ? (
+        <Alert
+          description={feedback.description}
+          onDismiss={() => {
+            setFeedback(null);
+          }}
+          title={feedback.title}
+          variant={feedback.variant}
+        />
+      ) : null}
 
       {isLoading ? <ProductTableSkeleton rows={6} /> : null}
 
@@ -314,6 +414,7 @@ export function ProductsPage() {
             ? `Are you sure you want to delete "${selectedProduct.title}"?`
             : ""
         }
+        isLoading={isDeleting}
         isOpen={activeDialog === "delete"}
         onCancel={handleCloseDialog}
         onConfirm={handleConfirmDelete}
