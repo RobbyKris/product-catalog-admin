@@ -1,8 +1,4 @@
-import {
-    useEffect,
-    useState,
-    type ComponentPropsWithoutRef,
-} from "react";
+import { useState, type ComponentPropsWithoutRef } from "react";
 import { FiImage } from "react-icons/fi";
 
 import { joinClasses } from "../../../components/classnames";
@@ -25,12 +21,8 @@ export function ProductImage({
     ...props
 }: ProductImageProps) {
     const normalizedSrc = src?.trim() ?? "";
-
-    const [hasError, setHasError] = useState(normalizedSrc === "",);
-
-    useEffect(() => {
-        setHasError(normalizedSrc === "");
-    }, [normalizedSrc]);
+    const [failedSrc, setFailedSrc] = useState<string | null>(null);
+    const hasError = normalizedSrc === "" || failedSrc === normalizedSrc;
 
     if (hasError) {
         return (
@@ -60,7 +52,7 @@ export function ProductImage({
             )}
             loading={loading}
             onError={() => {
-                setHasError(true);
+                setFailedSrc(normalizedSrc);
             }}
             src={normalizedSrc}
         />

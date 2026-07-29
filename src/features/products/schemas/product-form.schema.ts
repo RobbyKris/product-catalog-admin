@@ -22,9 +22,13 @@ export const productFormSchema = z.object({
         .min(0, "Price tidak boleh negatif."),
 
     discountPercentage: z
-        .number({ error: "Discount harus berupa angka yang valid." })
-        .min(0, "Discount tidak boleh negatif.")
-        .max(100, "Discount tidak boleh melebihi 100%."),
+        .union([
+            z.nan().transform(() => 0),
+            z
+                .number({ error: "Discount harus berupa angka yang valid." })
+                .min(0, "Discount tidak boleh negatif.")
+                .max(100, "Discount tidak boleh melebihi 100%."),
+        ]),
 
     stock: z
         .number({ error: "Stock wajib diisi." })

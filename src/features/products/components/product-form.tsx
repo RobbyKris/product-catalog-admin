@@ -30,7 +30,7 @@ function getDefaultValues(product?: Product | null): ProductFormValues {
     brand: product?.brand ?? "",
     category: product?.category ?? "",
     price: product?.price ?? Number.NaN,
-    discountPercentage: product?.discountPercentage ?? 0,
+    discountPercentage: product?.discountPercentage ?? Number.NaN,
     stock: product?.stock ?? Number.NaN,
     rating: product?.rating ?? 0,
     description: product?.description ?? "",
@@ -44,13 +44,6 @@ function getNumberValue(value: number): number | "" {
 
 function readNumberValue(value: string, valueAsNumber: number): number {
   return value === "" ? Number.NaN : valueAsNumber;
-}
-
-function readOptionalNumberValue(
-  value: string,
-  valueAsNumber: number,
-): number {
-  return value === "" ? 0 : valueAsNumber;
 }
 
 export function ProductForm({
@@ -183,7 +176,7 @@ export function ProductForm({
                 onBlur={field.onBlur}
                 onChange={(event) => {
                   field.onChange(
-                    readOptionalNumberValue(
+                    readNumberValue(
                       event.target.value,
                       event.target.valueAsNumber,
                     ),
@@ -216,7 +209,7 @@ export function ProductForm({
                 onBlur={field.onBlur}
                 onChange={(event) => {
                   field.onChange(
-                    readOptionalNumberValue(
+                    readNumberValue(
                       event.target.value,
                       event.target.valueAsNumber,
                     ),
