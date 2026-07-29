@@ -238,6 +238,7 @@ Tanggung jawab:
 - render product list pada mobile
 - menggunakan data yang sama dengan `ProductTable`
 - menampilkan thumbnail, title, brand/category, price, rating, stock, dan actions
+- boleh menyusun UI dari primitive global `Card` dan `CardList`
 
 Tidak memiliki store atau query state terpisah khusus mobile.
 

@@ -88,6 +88,8 @@ Komponen global yang diperlukan:
 | `Select` | Category dan sorting |
 | `SearchInput` | Search product |
 | `Badge` | Category, stock status, atau context singkat |
+| `Card` | Surface reusable untuk layout card |
+| `CardList` | Layout wrapper untuk kumpulan card |
 | `Table` | Product list desktop dan tablet |
 | `Pagination` | Navigasi halaman |
 | `Modal` | Product detail dan create/edit form |
@@ -125,6 +127,8 @@ product-image.tsx
 - Form control dibungkus dengan `FormField`.
 - Gunakan `SearchInput` khusus pencarian.
 - Gunakan `Select` untuk category dan sort.
+- Gunakan `Card` untuk surface reusable yang bisa dipakai lintas halaman.
+- Gunakan `CardList` untuk membungkus kumpulan card yang tersusun konsisten.
 - Gunakan `Table` untuk product list desktop dan tablet.
 - Gunakan `ProductCardList` untuk product list mobile.
 - `ProductCardList` merender satu `ProductCard` untuk setiap product.
@@ -516,7 +520,7 @@ Lokasi:
 features/products/components/product-card-list.tsx
 ```
 
-Kedua component ini **bukan primitive global** karena hanya digunakan pada domain Product.
+`ProductCard` dan `ProductCardList` tetap merupakan component feature, tetapi keduanya sekarang disusun di atas primitive global `Card` dan `CardList` agar surface card bisa dipakai ulang lintas halaman.
 
 ---
 
@@ -559,6 +563,7 @@ Contoh wireframe:
 Aturan:
 
 - Gunakan `ProductImage` untuk thumbnail dan fallback.
+- Gunakan primitive `Card` sebagai container utamanya.
 - Title menjadi informasi paling menonjol.
 - Brand dan category menjadi metadata sekunder.
 - Price dan rating tetap mudah ditemukan.
@@ -597,7 +602,7 @@ type ProductCardProps = {
 
 `ProductCardList` menerima daftar product yang sudah diproses oleh store atau page.
 
-Component ini hanya menangani presentasi.
+Component ini hanya menangani presentasi dan dapat memanfaatkan primitive `CardList` sebagai wrapper layout.
 
 ```tsx
 <ProductCardList
@@ -629,7 +634,7 @@ export function ProductCardList({
   onDelete,
 }: ProductCardListProps) {
   return (
-    <div className="grid gap-3">
+    <CardList>
       {products.map((product) => (
         <ProductCard
           key={product.id}
@@ -639,7 +644,7 @@ export function ProductCardList({
           onDelete={onDelete}
         />
       ))}
-    </div>
+    </CardList>
   );
 }
 ```
@@ -1283,6 +1288,8 @@ Textarea
 Select
 SearchInput
 Badge
+Card
+CardList
 Table
 Pagination
 Modal

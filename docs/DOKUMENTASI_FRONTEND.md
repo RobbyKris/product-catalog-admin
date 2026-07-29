@@ -27,6 +27,7 @@ Tidak ada backend atau database custom yang perlu dibuat.
 - [Validasi dan Feedback](#validasi-dan-feedback)
 - [Struktur Folder](#struktur-folder)
 - [Prioritas Pengerjaan](#prioritas-pengerjaan)
+- [Status Implementasi Saat Ini](#status-implementasi-saat-ini)
 - [Checklist Penyelesaian](#checklist-penyelesaian)
 - [Out of Scope](#out-of-scope)
 
@@ -387,6 +388,7 @@ Penjelasan:
 - `ProductTable` menerima daftar product dan menampilkannya dalam bentuk table pada desktop/tablet.
 - `ProductCardList` menerima daftar product dan menjadi pengganti `ProductTable` pada mobile.
 - `ProductCard` hanya bertanggung jawab menampilkan **satu product** di dalam `ProductCardList`.
+- `ProductCard` dan `ProductCardList` boleh dibangun di atas primitive global `Card` dan `CardList` agar surface mobile bisa dipakai ulang di halaman lain.
 - `ProductCard` bukan pengganti modal detail.
 - Action `View` pada `ProductTable` maupun `ProductCard` tetap membuka `ProductDetail` melalui modal/drawer yang sama.
 
@@ -1418,23 +1420,40 @@ Service tidak bertanggung jawab untuk membuka modal, routing, toast, atau form s
 22. README
 ```
 
+## Status Implementasi Saat Ini
+
+Update verifikasi terakhir: 28 Juli 2026.
+
+1. `Setup Vite + React + TypeScript`: selesai. Scaffold proyek aktif dan `npm run build` sudah lulus.
+2. `Setup Tailwind`: selesai. Tailwind v4 sudah aktif melalui `@tailwindcss/vite` dan `src/styles/index.css`.
+3. `Product type`: selesai. Type utama sudah tersedia di `src/features/products/types/product.ts`.
+4. `Product service`: selesai. Service untuk list, search, category, dan detail sudah ada di `src/features/products/services/product.service.ts`.
+5. `Product Zustand store`: parsial. Store inti dan action dasar sudah ada, tetapi typing masih belum rapi dan flow belum lengkap.
+6. `Fetch product list`: selesai dasar. `ProductsPage` sudah memanggil `fetchProducts()` dan menampilkan hasil produk pada halaman utama.
+7. `Loading / Error / Empty`: selesai dasar. Loading, error, retry, dan empty state dasar sudah dirender di `ProductsPage`.
+8. `Product table`: selesai. Tabel desktop/tablet sudah dirender melalui `ProductTable` dan terhubung ke `ProductsPage`.
+
+Kesimpulan: progres implementasi sudah masuk sampai langkah 8. Pondasi langkah 5-7 sudah berjalan, langkah 8 sudah terhubung ke halaman utama, dan presentasi mobile dasar sekarang mulai memakai `ProductCardList`.
+
 ## Checklist Penyelesaian
+
+Catatan: checklist hanya dicentang jika fitur sudah terhubung end-to-end. Item yang baru punya pondasi kode tetapi belum dipakai penuh tetap dibiarkan belum dicentang.
 
 ### Data Fetching
 
-- [ ] Fetch products
+- [x] Fetch products
 - [ ] Fetch categories
 - [ ] Product detail
-- [ ] Loading
-- [ ] Error
-- [ ] Retry
+- [x] Loading
+- [x] Error
+- [x] Retry
 
 ### Product List
 
-- [ ] Product table untuk desktop/tablet
-- [ ] Product card list untuk mobile
-- [ ] Product card untuk setiap item mobile
-- [ ] ProductTable dan ProductCardList menggunakan source data yang sama
+- [x] Product table untuk desktop/tablet
+- [x] Product card list untuk mobile
+- [x] Product card untuk setiap item mobile
+- [x] ProductTable dan ProductCardList menggunakan source data yang sama
 - [ ] Search menggunakan GET DummyJSON
 - [ ] Debounced search tanpa Enter
 - [ ] Search reset page ke 1
@@ -1444,7 +1463,7 @@ Service tidak bertanggung jawab untuk membuka modal, routing, toast, atau form s
 - [ ] Sort reset page ke 1
 - [ ] Pagination menggunakan limit + skip
 - [ ] Search dan pagination tetap sinkron
-- [ ] Empty state
+- [x] Empty state
 
 ### CRUD
 
@@ -1477,19 +1496,24 @@ Service tidak bertanggung jawab untuk membuka modal, routing, toast, atau form s
 - [ ] Input label
 - [ ] Button text jelas
 - [ ] Loading skeleton
-- [ ] Empty result
-- [ ] Error feedback
+- [x] Empty result
+- [x] Error feedback
 
 ### Code Quality
 
 - [ ] TypeScript type jelas
 - [ ] Tidak memakai `any` sembarangan
-- [ ] Request API tidak tersebar
-- [ ] Zustand menjadi state utama
-- [ ] Component tidak terlalu besar
+- [x] Request API tidak tersebar
+- [x] Zustand menjadi state utama
+- [x] Component tidak terlalu besar
 - [ ] localStorage logic tidak tersebar
-- [ ] Struktur folder jelas
+- [x] Struktur folder jelas
 - [ ] README lengkap
+
+## Verifikasi Terakhir
+
+- `npm run lint`: lulus.
+- `npm run build`: lulus.
 
 ## Nilai Plus yang Layak Diprioritaskan
 

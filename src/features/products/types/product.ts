@@ -34,3 +34,15 @@ export type ProductQuery = {
   sortBy?: ProductSortField;
   sortOrder?: SortOrder;
 };
+
+export type ProductFormValues = {
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  discountPercentage: number;
+  stock: number;
+  rating: number;
+  description: string;
+  thumbnail: string;
+};
