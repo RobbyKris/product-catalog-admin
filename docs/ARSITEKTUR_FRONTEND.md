@@ -34,6 +34,7 @@ Tidak ada:
 
 ## Daftar Isi
 
+- [Status Arsitektur Saat Ini](#status-arsitektur-saat-ini)
 - [Prinsip Arsitektur](#prinsip-arsitektur)
 - [Struktur Folder](#struktur-folder)
 - [Domain Utama](#domain-utama)
@@ -51,6 +52,30 @@ Tidak ada:
 - [Aksesibilitas dan UX](#aksesibilitas-dan-ux)
 - [Quality Gate](#quality-gate)
 - [Hal yang Sengaja Tidak Digunakan](#hal-yang-sengaja-tidak-digunakan)
+
+---
+
+# Status Arsitektur Saat Ini
+
+Update verifikasi terakhir: 29 Juli 2026.
+
+Status arsitektur yang saat ini benar-benar aktif di code:
+
+- `src/main.tsx` sudah merender `App`.
+- `src/app/app.tsx` langsung merender `ProductsPage`.
+- `src/app/router.tsx` masih kosong dan belum dipakai.
+- Jalur aktif aplikasi saat ini adalah `ProductsPage -> ProductToolbar/ProductTable/ProductCardList -> useProductStore -> product.service.ts`.
+- `product.service.ts` sudah menangani `getProducts`, `searchProducts`, `getCategories`, `getProductsByCategory`, dan `getProductById`.
+- `product.store.ts` sudah menangani list products, query state, selected product, local CRUD state, dan persistence lewat `zustand/middleware/persist`.
+- `product-state.ts` sudah dipakai untuk merge API products dengan `createdProducts`, `updatedProducts`, dan `deletedProductIds`.
+- `src/lib/storage.ts` belum dipakai karena persistence saat ini terpusat langsung di store.
+- `src/styles/index.css` saat ini hanya berisi base style, token warna, dan theme mapping Tailwind.
+- Primitive UI global di `src/components/ui` mayoritas sudah ada implementasinya.
+- `Topbar` sudah ada di `src/components/layout/topbar.tsx`, tetapi belum dipasang ke halaman aktif.
+- Feature components yang sudah aktif dipakai di halaman: `product-toolbar.tsx`, `product-table.tsx`, `product-card.tsx`, `product-card-list.tsx`, `product-detail.tsx`, `product-form.tsx`, dan `products-page.tsx`.
+- File feature yang masih kosong saat ini: `product-image.tsx`.
+- Validasi form sudah terhubung ke UI melalui `ProductForm + react-hook-form + zodResolver(productFormSchema)`.
+- Persistence local CRUD sudah diverifikasi di level runtime store dengan simulasi rehydrate `localStorage`.
 
 ---
 
@@ -161,6 +186,12 @@ src/
 Struktur dibuat berdasarkan kebutuhan nyata.
 
 Tidak perlu menambahkan folder baru jika belum digunakan.
+
+Catatan snapshot code saat ini:
+
+- `src/components/classnames.ts` sudah ada sebagai helper kecil untuk join class string.
+- `src/features/products/schemas/product-form.schema.ts` sudah ada sebagai pondasi validasi form.
+- `src/lib/storage.ts` dan `src/utils/pagination.ts` masih kosong.
 
 ---
 

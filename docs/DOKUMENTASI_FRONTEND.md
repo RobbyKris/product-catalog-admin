@@ -1354,6 +1354,12 @@ products
 
 Jadi tidak perlu terlalu banyak feature folder.
 
+Catatan snapshot code saat ini:
+
+- `src/components/classnames.ts` sudah ada sebagai helper kecil untuk class string.
+- `src/features/products/schemas/product-form.schema.ts` sudah ada sebagai pondasi validasi form.
+- `src/lib/storage.ts` dan `src/utils/pagination.ts` masih kosong.
+
 ## Product Service
 
 Semua request DummyJSON ditempatkan pada:
@@ -1422,28 +1428,42 @@ Service tidak bertanggung jawab untuk membuka modal, routing, toast, atau form s
 
 ## Status Implementasi Saat Ini
 
-Update verifikasi terakhir: 28 Juli 2026.
+Update verifikasi terakhir: 29 Juli 2026.
 
-1. `Setup Vite + React + TypeScript`: selesai. Scaffold proyek aktif dan `npm run build` sudah lulus.
-2. `Setup Tailwind`: selesai. Tailwind v4 sudah aktif melalui `@tailwindcss/vite` dan `src/styles/index.css`.
-3. `Product type`: selesai. Type utama sudah tersedia di `src/features/products/types/product.ts`.
+Ringkasan progress code saat ini:
+
+1. `Setup Vite + React + TypeScript`: selesai. Entry aktif ada di `src/main.tsx` dan `src/app/app.tsx`.
+2. `Setup Tailwind`: selesai. Tailwind v4 aktif melalui `@tailwindcss/vite`, dan `src/styles/index.css` saat ini berisi base style + token warna.
+3. `Product type`: selesai. Type utama sudah tersedia di `src/features/products/types/product.ts`, termasuk `Product`, `ProductCategory`, `ProductQuery`, dan `ProductFormValues`.
 4. `Product service`: selesai. Service untuk list, search, category, dan detail sudah ada di `src/features/products/services/product.service.ts`.
-5. `Product Zustand store`: parsial. Store inti dan action dasar sudah ada, tetapi typing masih belum rapi dan flow belum lengkap.
-6. `Fetch product list`: selesai dasar. `ProductsPage` sudah memanggil `fetchProducts()` dan menampilkan hasil produk pada halaman utama.
-7. `Loading / Error / Empty`: selesai dasar. Loading, error, retry, dan empty state dasar sudah dirender di `ProductsPage`.
-8. `Product table`: selesai. Tabel desktop/tablet sudah dirender melalui `ProductTable` dan terhubung ke `ProductsPage`.
+5. `Product Zustand store`: selesai untuk flow browsing. Store sudah menangani query state, selected product, local CRUD state, dan persistence lewat `persist` middleware.
+6. `Fetch product list`: selesai. `ProductsPage` sudah memanggil `fetchProducts()` dan merender hasil produk.
+7. `Fetch categories`: selesai. `ProductsPage` sudah memanggil `fetchCategories()` dan `ProductToolbar` sudah memakai hasil categories untuk filter.
+8. `Loading / Error / Retry / Empty`: selesai. Semua state tersebut sudah dirender di `ProductsPage`.
+9. `Product table`: selesai. Tabel desktop/tablet sudah aktif melalui `ProductTable`.
+10. `Product card list`: selesai. Tampilan mobile sudah aktif melalui `ProductCardList` dan `ProductCard`.
+11. `Search / Filter / Sort / Pagination`: selesai untuk flow list browsing. Search sudah debounced, filter category dan sort sudah aktif, dan pagination memakai `limit + skip`.
+12. `Local persistence`: selesai dan sudah diverifikasi. `createdProducts`, `updatedProducts`, dan `deletedProductIds` dipersist lewat Zustand, lalu ter-rehydrate dengan benar pada simulasi refresh/load ulang store.
+13. `CRUD UI`: selesai untuk wiring utama. `ProductDetail`, `ProductForm`, `Modal`, `ConfirmDialog`, dan action create/edit/delete sudah terhubung dari `ProductsPage`.
+14. `Validasi form`: selesai. `ProductForm` sudah memakai `react-hook-form` + `zodResolver(productFormSchema)` dan field optional numeric dinormalisasi aman saat kosong.
+15. `Routing`: belum dipakai. `src/app/router.tsx` masih kosong, dan aplikasi saat ini hanya memakai satu halaman langsung dari `App`.
 
-Kesimpulan: progres implementasi sudah masuk sampai langkah 8. Pondasi langkah 5-7 sudah berjalan, langkah 8 sudah terhubung ke halaman utama, dan presentasi mobile dasar sekarang mulai memakai `ProductCardList`.
+Hasil verifikasi saat ini:
+
+- `npm run lint` lulus.
+- `npm run build` lulus.
+- Persistence CRUD local lolos verifikasi runtime dengan simulasi `localStorage` + reload store.
+- Schema validasi lolos verifikasi untuk kasus valid minimal dan kasus field wajib kosong.
 
 ## Checklist Penyelesaian
 
-Catatan: checklist hanya dicentang jika fitur sudah terhubung end-to-end. Item yang baru punya pondasi kode tetapi belum dipakai penuh tetap dibiarkan belum dicentang.
+Catatan: checklist di bawah mencerminkan status code saat ini. Item fitur yang baru punya pondasi store atau schema, tetapi belum punya wiring UI end-to-end, tetap dibiarkan belum dicentang dan diberi catatan singkat.
 
 ### Data Fetching
 
 - [x] Fetch products
-- [ ] Fetch categories
-- [ ] Product detail
+- [x] Fetch categories
+- [x] Product detail
 - [x] Loading
 - [x] Error
 - [x] Retry
@@ -1454,59 +1474,59 @@ Catatan: checklist hanya dicentang jika fitur sudah terhubung end-to-end. Item y
 - [x] Product card list untuk mobile
 - [x] Product card untuk setiap item mobile
 - [x] ProductTable dan ProductCardList menggunakan source data yang sama
-- [ ] Search menggunakan GET DummyJSON
-- [ ] Debounced search tanpa Enter
-- [ ] Search reset page ke 1
-- [ ] Category filter
-- [ ] Filter reset page ke 1
-- [ ] Sort
-- [ ] Sort reset page ke 1
-- [ ] Pagination menggunakan limit + skip
-- [ ] Search dan pagination tetap sinkron
+- [x] Search menggunakan GET DummyJSON
+- [x] Debounced search tanpa Enter
+- [x] Search reset page ke 1
+- [x] Category filter
+- [x] Filter reset page ke 1
+- [x] Sort
+- [x] Sort reset page ke 1
+- [x] Pagination menggunakan limit + skip
+- [x] Search dan pagination tetap sinkron
 - [x] Empty state
 
 ### CRUD
 
-- [ ] Create product
-- [ ] Edit product
-- [ ] Delete product
-- [ ] Delete confirmation
-- [ ] Form validation
+- [x] Create product
+- [x] Edit product
+- [x] Delete product
+- [x] Delete confirmation
+- [x] Form validation
 - [ ] Success feedback
 - [ ] Disabled action state
 
 ### Persistence
 
-- [ ] Created product tetap ada setelah refresh
-- [ ] Updated product tetap berubah setelah refresh
-- [ ] Deleted product tetap hilang setelah refresh
-- [ ] Local changes tetap ada setelah browser ditutup lalu dibuka kembali
-- [ ] API product edit disimpan ke `updatedProducts[id]`
-- [ ] Edit berulang pada ID yang sama hanya menyimpan versi terbaru
-- [ ] Local product edit memperbarui `createdProducts`
-- [ ] API product delete masuk ke `deletedProductIds`
-- [ ] Local product delete menghapus item dari `createdProducts`
-- [ ] `visibleProducts` tidak disimpan ke localStorage
+- [x] Created product tetap ada setelah refresh
+- [x] Updated product tetap berubah setelah refresh
+- [x] Deleted product tetap hilang setelah refresh
+- [x] Local changes tetap ada setelah browser ditutup lalu dibuka kembali
+- [x] API product edit disimpan ke `updatedProducts[id]`
+- [x] Edit berulang pada ID yang sama hanya menyimpan versi terbaru
+- [x] Local product edit memperbarui `createdProducts`
+- [x] API product delete masuk ke `deletedProductIds`
+- [x] Local product delete menghapus item dari `createdProducts`
+- [x] `visibleProducts` tidak disimpan ke localStorage
 
 ### UX
 
-- [ ] Desktop responsive
-- [ ] Mobile responsive
+- [x] Desktop responsive
+- [x] Mobile responsive
 - [ ] Image fallback
-- [ ] Input label
-- [ ] Button text jelas
-- [ ] Loading skeleton
+- [x] Input label
+- [x] Button text jelas
+- [x] Loading skeleton
 - [x] Empty result
 - [x] Error feedback
 
 ### Code Quality
 
-- [ ] TypeScript type jelas
-- [ ] Tidak memakai `any` sembarangan
+- [x] TypeScript type jelas
+- [x] Tidak memakai `any` sembarangan
 - [x] Request API tidak tersebar
 - [x] Zustand menjadi state utama
 - [x] Component tidak terlalu besar
-- [ ] localStorage logic tidak tersebar
+- [x] localStorage logic tidak tersebar
 - [x] Struktur folder jelas
 - [ ] README lengkap
 
@@ -1514,6 +1534,8 @@ Catatan: checklist hanya dicentang jika fitur sudah terhubung end-to-end. Item y
 
 - `npm run lint`: lulus.
 - `npm run build`: lulus.
+- `localStorage persistence`: lulus lewat verifikasi runtime dengan simulasi reload store pada 29 Juli 2026.
+- `form validation`: lulus lewat verifikasi schema untuk kasus valid minimal, field wajib kosong, dan normalisasi field optional numeric pada 29 Juli 2026.
 
 ## Nilai Plus yang Layak Diprioritaskan
 

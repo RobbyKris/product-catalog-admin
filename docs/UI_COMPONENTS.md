@@ -25,6 +25,7 @@ Tidak ada:
 
 ## Daftar Isi
 
+- [Status Implementasi Saat Ini](#status-implementasi-saat-ini)
 - [Typography](#typography)
 - [Daftar Komponen](#daftar-komponen)
 - [Aturan Penggunaan](#aturan-penggunaan)
@@ -47,6 +48,23 @@ Tidak ada:
 - [Formatting Helper](#formatting-helper)
 - [Aksesibilitas](#aksesibilitas)
 - [Contoh Penggunaan](#contoh-penggunaan)
+
+---
+
+# Status Implementasi Saat Ini
+
+Update verifikasi terakhir: 29 Juli 2026.
+
+Status komponen berdasarkan code yang ada saat ini:
+
+- Primitive UI yang sudah ada implementasinya: `Button`, `IconButton`, `FormField`, `Input`, `Textarea`, `Select`, `SearchInput`, `Badge`, `Card`, `CardList`, `Table`, `Pagination`, `Modal`, `ConfirmDialog`, `Skeleton`, `EmptyState`, dan `Alert`.
+- Primitive UI yang sudah dipakai di flow halaman aktif: `Button`, `FormField`, `Input`, `Textarea`, `Select`, `SearchInput`, `Card`, `CardList`, `Table`, `Pagination`, `Modal`, `ConfirmDialog`, `Skeleton`, `EmptyState`, dan `Alert`.
+- Primitive UI yang sudah ada tetapi belum dipakai di flow `ProductsPage`: `IconButton` dan `Badge`.
+- Component product yang sudah aktif dipakai: `ProductToolbar`, `ProductTable`, `ProductCard`, `ProductCardList`, `ProductDetail`, dan `ProductForm`.
+- Component product yang masih kosong: `ProductImage`.
+- `Topbar` sudah ada di `src/components/layout/topbar.tsx`, tetapi belum dipasang di halaman aktif.
+- `ProductTable` dan `ProductCard` saat ini masih memakai action button teks biasa. `IconButton` belum dipakai di flow aktif.
+- Badge category dan stock saat ini masih dirender dengan class utility inline di feature component, belum memakai primitive `Badge`.
 
 ---
 
@@ -776,6 +794,11 @@ Create Product
 Edit Product
 ```
 
+Status code saat ini:
+
+- Primitive `Modal` sudah ada implementasinya di `src/components/ui/modal.tsx`.
+- `Modal` sudah dipakai di flow halaman aktif untuk `ProductDetail`, `Add Product`, dan `Edit Product`.
+
 Modal controlled oleh feature.
 
 Props minimal:
@@ -803,6 +826,11 @@ Aturan:
 # ConfirmDialog
 
 Digunakan hanya untuk destructive action.
+
+Status code saat ini:
+
+- Primitive `ConfirmDialog` sudah ada implementasinya di `src/components/ui/confirm-dialog.tsx`.
+- Component ini sudah dipakai di feature `products` untuk flow delete confirmation.
 
 Contoh:
 
@@ -937,6 +965,12 @@ Lokasi:
 ```txt
 features/products/components/product-image.tsx
 ```
+
+Status code saat ini:
+
+- File `product-image.tsx` masih kosong.
+- Thumbnail pada `ProductTable` dan `ProductCard` masih langsung memakai elemen `<img>` biasa.
+- Fallback image belum diimplementasikan.
 
 Tanggung jawab:
 
@@ -1299,6 +1333,11 @@ EmptyState
 Alert
 ```
 
+Status saat ini:
+
+- Primitive di atas mayoritas sudah ada implementasinya.
+- Yang sudah aktif dipakai di halaman saat ini terutama `Button`, `FormField`, `Input`, `Textarea`, `Select`, `SearchInput`, `Card`, `CardList`, `Table`, `Pagination`, `Modal`, `ConfirmDialog`, `Skeleton`, `EmptyState`, dan `Alert`.
+
 Component khusus Product:
 
 ```txt
@@ -1310,5 +1349,10 @@ ProductDetail
 ProductForm
 ProductImage
 ```
+
+Status saat ini:
+
+- `ProductToolbar`, `ProductTable`, `ProductCard`, `ProductCardList`, `ProductDetail`, dan `ProductForm` sudah dipakai di `ProductsPage`.
+- `ProductImage` masih belum diimplementasikan.
 
 Tidak perlu menambahkan primitive baru kecuali kebutuhan tersebut benar-benar muncul dan memberi manfaat yang jelas.

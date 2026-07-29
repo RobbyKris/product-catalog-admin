@@ -22,17 +22,17 @@ export const productFormSchema = z.object({
         .min(0, "Price tidak boleh negatif."),
 
     discountPercentage: z
-        .number({ error: "Discount wajib diisi." })
+        .number({ error: "Discount harus berupa angka yang valid." })
         .min(0, "Discount tidak boleh negatif.")
-        .max(100, "Discount tidak boleh melebihi 80 karakter."),
+        .max(100, "Discount tidak boleh melebihi 100%."),
 
     stock: z
         .number({ error: "Stock wajib diisi." })
-        .int("Stock harus berupa number.")
+        .int("Stock harus berupa bilangan bulat.")
         .min(0, "Stock tidak boleh negatif."),
 
     rating: z
-        .number({ error: "Rating wajib diisi." })
+        .number({ error: "Rating harus berupa angka yang valid." })
         .min(0, "Rating tidak boleh dibawah 0.")
         .max(5, "Rating tidak boleh melebihi 5."),
 
@@ -40,7 +40,7 @@ export const productFormSchema = z.object({
         .string()
         .trim()
         .min(1, "Description wajib diisi.")
-        .max(1000, "Description tidak boleh melebihi 100 karakter."),
+        .max(1000, "Description tidak boleh melebihi 1000 karakter."),
 
     thumbnail: z
         .string()

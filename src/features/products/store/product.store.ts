@@ -86,8 +86,9 @@ function getDeletedCountForTotal(
     return deletedProductIds.length;
   }
 
-  return data.products.filter((product) => deletedProductIds.includes(product.id))
-    .length;
+  return data.products.filter((product) =>
+    deletedProductIds.includes(product.id),
+  ).length;
 }
 
 export const useProductStore = create<ProductState>()(
@@ -240,6 +241,7 @@ export const useProductStore = create<ProductState>()(
 
         set({
           createdProducts: [...state.createdProducts, product],
+          page: 1,
         });
 
         void get().fetchProducts();
@@ -297,6 +299,7 @@ export const useProductStore = create<ProductState>()(
 
       deleteProduct: (id) => {
         const state = get();
+
         const isCreatedProduct = state.createdProducts.some(
           (product) => product.id === id,
         );
@@ -306,21 +309,21 @@ export const useProductStore = create<ProductState>()(
             createdProducts: state.createdProducts.filter(
               (product) => product.id !== id,
             ),
-            selectedProduct:
-              state.selectedProduct?.id === id ? null : state.selectedProduct,
+            page: 1,
           });
         } else {
+          const nextUpdatedProducts = {
+            ...state.updatedProducts,
+          };
+
+          delete nextUpdatedProducts[id];
+
           set({
+            updatedProducts: nextUpdatedProducts,
             deletedProductIds: state.deletedProductIds.includes(id)
               ? state.deletedProductIds
               : [...state.deletedProductIds, id],
-            updatedProducts: Object.fromEntries(
-              Object.entries(state.updatedProducts).filter(
-                ([productId]) => Number(productId) !== id,
-              ),
-            ),
-            selectedProduct:
-              state.selectedProduct?.id === id ? null : state.selectedProduct,
+            page: 1,
           });
         }
 
